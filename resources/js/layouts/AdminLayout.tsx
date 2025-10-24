@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, usePage } from '@inertiajs/react'
+import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -69,9 +70,26 @@ const navigation = {
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  const { url } = usePage()
+  const { url, props } = usePage<any>()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [openMenus, setOpenMenus] = useState<string[]>([])
+
+  // Handle flash messages
+  useEffect(() => {
+    console.log('Flash messages:', props.flash) // Debug log
+    if (props.flash?.success) {
+      toast.success(props.flash.success)
+    }
+    if (props.flash?.error) {
+      toast.error(props.flash.error)
+    }
+    if (props.flash?.info) {
+      toast.info(props.flash.info)
+    }
+    if (props.flash?.warning) {
+      toast.warning(props.flash.warning)
+    }
+  }, [props.flash])
 
   const isActive = (href: string) => {
     if (href === '/admin') {

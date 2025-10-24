@@ -3,6 +3,7 @@ import '../css/app.css';
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
+import { Toaster } from 'sonner';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -46,9 +47,12 @@ createInertiaApp({
     },
     setup({ el, App, props }) {
         createRoot(el).render(
-            <div className="mx-auto w-full max-w-[1920px]">
-                <App {...props} />
-            </div>,
+            <>
+                <Toaster position="top-right" richColors closeButton />
+                <div className="mx-auto w-full max-w-[1920px]">
+                    <App {...props} />
+                </div>
+            </>,
         );
     },
 });
