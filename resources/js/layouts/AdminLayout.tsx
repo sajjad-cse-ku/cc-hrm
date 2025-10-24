@@ -38,7 +38,8 @@ import {
   FileX,
   Server,
   Wrench,
-  Building2
+  Building2,
+  Building
 } from 'lucide-react'
 
 interface AdminLayoutProps {
@@ -51,6 +52,7 @@ const navigation = {
     { name: 'Tasks', href: route('admin.tasks.index'), icon: CheckSquare },
     { name: 'Users', href: route('admin.users.index'), icon: Users },
     { name: 'Branches', href: route('admin.branches.index'), icon: Building2 },
+    { name: 'Departments', href: route('admin.departments.index'), icon: Building },
     { 
       name: 'Apps', 
       href: '#', 

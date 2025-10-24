@@ -51,20 +51,13 @@ class BranchController extends Controller
 
         // Pagination
         $perPage = $request->get('per_page', 10);
-        $branches = $query->latest()->paginate($perPage);
+        $perPage = in_array($perPage, [10, 25, 50, 100]) ? $perPage : 10;
+        
+        $branches = $query->latest()->paginate($perPage)->withQueryString();
 
         return Inertia::render('Branch/Index', [
-            'branches' => BranchResource::collection($branches)->additional([
-                'meta' => [
-                    'current_page' => $branches->currentPage(),
-                    'last_page' => $branches->lastPage(),
-                    'per_page' => $branches->perPage(),
-                    'total' => $branches->total(),
-                    'from' => $branches->firstItem(),
-                    'to' => $branches->lastItem(),
-                ]
-            ]),
-            'filters' => $request->only(['search', 'status', 'country'])
+            'branches' => $branches,
+            'filters' => $request->only(['search', 'status', 'country', 'per_page'])
         ]);
     }
 
