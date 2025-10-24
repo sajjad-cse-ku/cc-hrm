@@ -7,20 +7,35 @@ import { initializeTheme } from './hooks/use-appearance';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+const appPages = import.meta.glob('./pages/**/*.tsx');
+const modulePage = import.meta.glob('Modules/**/resources/assets/js/pages/**/*.tsx');
+
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
-    resolve: (name) =>
-        resolvePageComponent(
-            `./pages/${name}.tsx`,
-            import.meta.glob('./pages/**/*.tsx'),
-        ),
-    setup({ el, App, props }) {
-        const root = createRoot(el);
+    resolve: async (name) => {
+        // First check module pages
+        const moduleKey = Object.keys(modulePage).find((path) => path.endsWith(`/pages/${name}.tsx`));
 
-        root.render(<App {...props} />);
+        if (moduleKey) {
+            const page = await modulePage[moduleKey]();
+            return page.default;
+        }
+
+        // Then check app-level pages
+        const appKey = `./pages/${name}.tsx`;
+        if (appPages[appKey]) {
+            const page = await appPages[appKey]();
+            return page.default;
+        }
+
+        throw new Error(`Page not found: ${name}`);
     },
-    progress: {
-        color: '#4B5563',
+    setup({ el, App, props }) {
+        createRoot(el).render(
+            <div className="mx-auto w-full max-w-[1920px]">
+                <App {...props} />
+            </div>,
+        );
     },
 });
 
