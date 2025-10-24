@@ -11,6 +11,8 @@ class DesignationDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        $this->call([
+            DesignationSeeder::class,
+        ]);
     }
 }

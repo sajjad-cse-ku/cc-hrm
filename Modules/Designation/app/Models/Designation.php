@@ -6,10 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Department\Models\Department;
+use Modules\Designation\Database\Factories\DesignationFactory;
 
 class Designation extends Model
 {
     use HasFactory, SoftDeletes;
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory()
+    {
+        return DesignationFactory::new();
+    }
 
     /**
      * The attributes that are mass assignable.

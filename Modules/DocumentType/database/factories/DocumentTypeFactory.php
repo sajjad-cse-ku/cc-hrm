@@ -17,24 +17,36 @@ class DocumentTypeFactory extends Factory
      */
     public function definition(): array
     {
+        $documentTypes = [
+            'Passport',
+            'National ID',
+            'Driver License',
+            'Birth Certificate',
+            'Tax ID',
+            'Social Security Card',
+            'Resume/CV',
+            'Employment Contract',
+            'Bank Statement',
+            'Proof of Address',
+            'Educational Certificate',
+            'Medical Certificate',
+            'Police Clearance',
+            'Reference Letter',
+            'Insurance Policy',
+            'Visa Document',
+            'Work Permit',
+            'Health Insurance',
+            'Marriage Certificate',
+            'Divorce Certificate',
+            'Tax Return',
+            'Employment Letter',
+            'Salary Slip',
+            'Rental Agreement',
+            'Utility Bill'
+        ];
+
         return [
-            'name' => $this->faker->unique()->randomElement([
-                'Passport',
-                'National ID',
-                'Driver License',
-                'Birth Certificate',
-                'Tax ID',
-                'Social Security Card',
-                'Resume/CV',
-                'Employment Contract',
-                'Bank Statement',
-                'Proof of Address',
-                'Educational Certificate',
-                'Medical Certificate',
-                'Police Clearance',
-                'Reference Letter',
-                'Insurance Policy'
-            ]),
+            'name' => $this->faker->unique()->randomElement($documentTypes) . ' - ' . $this->faker->unique()->numberBetween(1000, 9999),
             'description' => $this->faker->sentence(10),
             'required' => $this->faker->randomElement(['required', 'optional']),
             'status' => $this->faker->randomElement(['active', 'inactive']),

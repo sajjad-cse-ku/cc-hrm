@@ -11,6 +11,8 @@ class DepartmentDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        $this->call([
+            DepartmentSeeder::class,
+        ]);
     }
 }
