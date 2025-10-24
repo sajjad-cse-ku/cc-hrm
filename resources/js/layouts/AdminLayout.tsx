@@ -37,7 +37,8 @@ import {
   UserX,
   FileX,
   Server,
-  Wrench
+  Wrench,
+  Building2
 } from 'lucide-react'
 
 interface AdminLayoutProps {
@@ -46,69 +47,19 @@ interface AdminLayoutProps {
 
 const navigation = {
   general: [
-    { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-    { name: 'Tasks', href: '/admin/tasks', icon: CheckSquare },
+    { name: 'Dashboard', href: route('admin.dashboard'), icon: LayoutDashboard },
+    { name: 'Tasks', href: route('admin.tasks.index'), icon: CheckSquare },
+    { name: 'Users', href: route('admin.users.index'), icon: Users },
+    { name: 'Branches', href: route('admin.branches.index'), icon: Building2 },
     { 
       name: 'Apps', 
-      href: '/admin/apps', 
+      href: '#', 
       icon: Grid3X3,
       children: [
-        { name: 'Kanban', href: '/admin/apps/kanban' },
-        { name: 'Calendar', href: '/admin/apps/calendar' },
-        { name: 'Mail', href: '/admin/apps/mail' },
-      ]
-    },
-    { name: 'Chats', href: '/admin/chats', icon: MessageSquare, badge: '3' },
-    { name: 'Users', href: '/admin/users', icon: Users },
-    { 
-      name: 'Secured by Clerk', 
-      href: '/admin/clerk', 
-      icon: Shield,
-      children: [
-        { name: 'User Management', href: '/admin/clerk/users' },
-        { name: 'Organizations', href: '/admin/clerk/organizations' },
+        { name: 'Kanban', href: '#' },
       ]
     },
   ],
-  pages: [
-    { 
-      name: 'Auth', 
-      href: '/admin/auth', 
-      icon: Shield,
-      children: [
-        { name: 'Sign In', href: '/admin/auth/signin' },
-        { name: 'Sign Up', href: '/admin/auth/signup' },
-        { name: 'Forgot Password', href: '/admin/auth/forgot' },
-      ]
-    },
-    { 
-      name: 'Errors', 
-      href: '/admin/errors', 
-      icon: AlertCircle,
-      children: [
-        { name: 'Unauthorized', href: '/admin/errors/401', icon: Lock },
-        { name: 'Forbidden', href: '/admin/errors/403', icon: UserX },
-        { name: 'Not Found', href: '/admin/errors/404', icon: FileX },
-        { name: 'Internal Server Error', href: '/admin/errors/500', icon: Server },
-        { name: 'Maintenance Error', href: '/admin/errors/503', icon: Wrench },
-      ]
-    },
-  ],
-  other: [
-    { 
-      name: 'Settings', 
-      href: '/admin/settings', 
-      icon: Settings,
-      children: [
-        { name: 'Profile', href: '/admin/settings/profile' },
-        { name: 'Account', href: '/admin/settings/account' },
-        { name: 'Appearance', href: '/admin/settings/appearance' },
-        { name: 'Notifications', href: '/admin/settings/notifications' },
-        { name: 'Display', href: '/admin/settings/display' },
-      ]
-    },
-    { name: 'Help Center', href: '/admin/help-center', icon: HelpCircle },
-  ]
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
@@ -152,33 +103,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const SidebarContent = () => (
     <div className="flex h-full flex-col bg-sidebar">
       <div className="flex flex-col gap-2 p-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button 
-              variant="ghost" 
-              className="flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start h-12 text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            >
-              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                <span className="text-sm font-bold">SA</span>
-              </div>
-              <div className="grid flex-1 text-start text-sm leading-tight">
-                <span className="truncate font-semibold">Shadcn Admin</span>
-                <span className="truncate text-xs">Vite + Shadcn/ui</span>
-              </div>
-              <ChevronDown className="ms-auto size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-56">
-            <DropdownMenuLabel>Company</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/admin/company/settings">Settings</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/admin/company/billing">Billing</Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start h-12 text-sm">
+          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+            <span className="text-sm font-bold">SA</span>
+          </div>
+          <div className="grid flex-1 text-start text-sm leading-tight">
+            <span className="truncate font-semibold">Shadcn Admin</span>
+            <span className="truncate text-xs">Vite + Shadcn/ui</span>
+          </div>
+        </div>
       </div>
       <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-auto">
         <nav className="flex w-full min-w-0 flex-col gap-2">
@@ -259,149 +192,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </ul>
           </div>
 
-          {/* Pages Section */}
-          <div className="relative flex w-full min-w-0 flex-col p-2">
-            <div className="text-sidebar-foreground/70 flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium">
-              Pages
-            </div>
-            <ul className="flex w-full min-w-0 flex-col gap-1">
-              {navigation.pages.map((item: any) => (
-                <div key={item.name}>
-                  {item.children ? (
-                    <Collapsible open={shouldBeOpen(item)} onOpenChange={() => toggleMenu(item.name)}>
-                      <CollapsibleTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className={cn(
-                            'flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start h-8 text-sm font-medium transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-                            isActive(item.href) || hasActiveChild(item)
-                              ? 'bg-sidebar-accent text-sidebar-accent-foreground font-semibold'
-                              : 'text-sidebar-foreground hover:text-sidebar-accent-foreground'
-                          )}
-                        >
-                          <item.icon className="h-4 w-4 shrink-0" />
-                          <span className="flex-1 truncate">{item.name}</span>
-                          <ChevronRight className={cn(
-                            "h-4 w-4 shrink-0 transition-transform duration-200",
-                            shouldBeOpen(item) ? "rotate-90" : "rotate-0"
-                          )} />
-                        </Button>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
-                        <ul className="flex min-w-0 flex-col gap-1 py-0.5">
-                          {item.children.map((child: any) => (
-                            <li key={child.name}>
-                              <Link
-                                href={child.href}
-                                className={cn(
-                                  'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex h-8 min-w-0 items-center gap-2 overflow-hidden rounded-md p-2 text-sm transition-all duration-200',
-                                  url === child.href
-                                    ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
-                                    : 'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
-                                )}
-                              >
-                                {child.icon ? (
-                                  <child.icon className="h-4 w-4 shrink-0" />
-                                ) : (
-                                  <div className="h-4 w-4 shrink-0" />
-                                )}
-                                <span className="flex-1 truncate">{child.name}</span>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        'flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start h-8 text-sm font-medium transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-                        isActive(item.href)
-                          ? 'bg-sidebar-accent text-sidebar-accent-foreground font-semibold'
-                          : 'text-sidebar-foreground hover:text-sidebar-accent-foreground'
-                      )}
-                    >
-                      <item.icon className="h-4 w-4 shrink-0" />
-                      <span className="flex-1 truncate">{item.name}</span>
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </ul>
-          </div>
-
-          {/* Other Section */}
-          <div className="relative flex w-full min-w-0 flex-col p-2">
-            <div className="text-sidebar-foreground/70 flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium">
-              Other
-            </div>
-            <ul className="flex w-full min-w-0 flex-col gap-1">
-              {navigation.other.map((item: any) => (
-                <div key={item.name}>
-                  {item.children ? (
-                    <Collapsible open={shouldBeOpen(item)} onOpenChange={() => toggleMenu(item.name)}>
-                      <CollapsibleTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          className={cn(
-                            'flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start h-8 text-sm font-medium transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-                            isActive(item.href) || hasActiveChild(item)
-                              ? 'bg-sidebar-accent text-sidebar-accent-foreground font-semibold'
-                              : 'text-sidebar-foreground hover:text-sidebar-accent-foreground'
-                          )}
-                        >
-                          <item.icon className="h-4 w-4 shrink-0" />
-                          <span className="flex-1 truncate">{item.name}</span>
-                          <ChevronRight className={cn(
-                            "h-4 w-4 shrink-0 transition-transform duration-200",
-                            shouldBeOpen(item) ? "rotate-90" : "rotate-0"
-                          )} />
-                        </Button>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
-                        <ul className="flex min-w-0 flex-col gap-1 py-0.5">
-                          {item.children.map((child: any) => (
-                            <li key={child.name}>
-                              <Link
-                                href={child.href}
-                                className={cn(
-                                  'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex h-8 min-w-0 items-center gap-2 overflow-hidden rounded-md p-2 text-sm transition-all duration-200',
-                                  url === child.href
-                                    ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium'
-                                    : 'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
-                                )}
-                              >
-                                {child.icon ? (
-                                  <child.icon className="h-4 w-4 shrink-0" />
-                                ) : (
-                                  <div className="h-4 w-4 shrink-0" />
-                                )}
-                                <span className="flex-1 truncate">{child.name}</span>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        'flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-start h-8 text-sm font-medium transition-all duration-200 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-                        isActive(item.href)
-                          ? 'bg-sidebar-accent text-sidebar-accent-foreground font-semibold'
-                          : 'text-sidebar-foreground hover:text-sidebar-accent-foreground'
-                      )}
-                    >
-                      <item.icon className="h-4 w-4 shrink-0" />
-                      <span className="flex-1 truncate">{item.name}</span>
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </ul>
-          </div>
         </nav>
       </div>
       

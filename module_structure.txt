@@ -1,0 +1,14 @@
+file create
+1.controller
+2.service
+3.model
+4.migration
+5.factory
+6.seeder
+7.request
+8.policy
+9.resource
+10.ModuleName->resources->assets->js->ModuleName->Index.tsx
+11.ModuleName->resources->assets->js->ModuleName->Create.tsx
+12.ModuleName->resources->assets->js->ModuleName->Edit.tsx
+13.ModuleName->resources->assets->js->ModuleName->Show.tsx
