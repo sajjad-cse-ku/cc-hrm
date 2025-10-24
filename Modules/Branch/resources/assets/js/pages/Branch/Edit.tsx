@@ -39,17 +39,15 @@ interface EditBranchForm {
 }
 
 interface Props {
-  branch: {
-    data: Branch
-  }
+  branch: Branch
 }
 
 export default function Edit({ branch }: Props) {
-  console.log(branch.data)
+  console.log(branch)
   const [processing, setProcessing] = useState(false)
   
   // Extract the actual branch data
-  const branchData = branch.data
+  const branchData = branch
   
   const {
     register,

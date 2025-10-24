@@ -1,4 +1,5 @@
 {
     "Branch": true,
-    "Department": true
+    "Department": true,
+    "Designation": true
 }
