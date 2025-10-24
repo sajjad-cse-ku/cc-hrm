@@ -1,0 +1,3 @@
+@nwidart_command.txt  read this file then create new module name DocumentType and
+ read @module-generator-template.md and field
+name,description,required(enum{required,optional}),status

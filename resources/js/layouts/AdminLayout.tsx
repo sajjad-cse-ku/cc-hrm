@@ -40,7 +40,8 @@ import {
   Wrench,
   Building2,
   Building,
-  Award
+  Award,
+  FileText
 } from 'lucide-react'
 
 interface AdminLayoutProps {
@@ -55,6 +56,7 @@ const navigation = {
     { name: 'Branches', href: route('admin.branches.index'), icon: Building2 },
     { name: 'Departments', href: route('admin.departments.index'), icon: Building },
     { name: 'Designations', href: route('admin.designations.index'), icon: Award },
+    { name: 'Document Types', href: route('admin.document-types.index'), icon: FileText },
     { 
       name: 'Apps', 
       href: '#', 

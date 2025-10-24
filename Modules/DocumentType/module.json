@@ -1,0 +1,11 @@
+{
+    "name": "DocumentType",
+    "alias": "documenttype",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\DocumentType\\Providers\\DocumentTypeServiceProvider"
+    ],
+    "files": []
+}

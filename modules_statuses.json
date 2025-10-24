@@ -1,5 +1,6 @@
 {
     "Branch": true,
     "Department": true,
-    "Designation": true
+    "Designation": true,
+    "DocumentType": true
 }
