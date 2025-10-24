@@ -86,7 +86,7 @@ class BranchController extends Controller
     public function show(Branch $branch)
     {
         return Inertia::render('Branch/Show', [
-            'branch' => new BranchResource($branch)
+            'branch' => BranchResource::make($branch)->resolve()
         ]);
     }
 
@@ -96,7 +96,7 @@ class BranchController extends Controller
     public function edit(Branch $branch)
     {
         return Inertia::render('Branch/Edit', [
-            'branch' => new BranchResource($branch)
+            'branch' => BranchResource::make($branch)->resolve()
         ]);
     }
 
